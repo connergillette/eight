@@ -24,11 +24,14 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
+      <body className="bg-gray-900 text-white">
+        <div className="container w-8/12 mx-auto">
+          <h1 className="text-3xl mt-5">Eight</h1>
+          <Outlet />
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+        </div>
       </body>
     </html>
   );

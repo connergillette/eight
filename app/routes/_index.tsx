@@ -1,6 +1,7 @@
 import { ActionFunction, LoaderArgs, LoaderFunction, V2_MetaFunction, json, redirect } from "@remix-run/node"
 import { supabase } from '../server/supabase.server'
 import { Form, useActionData, useLoaderData } from '@remix-run/react';
+import Entry from '~/components/Entry';
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -26,9 +27,7 @@ export const action: ActionFunction = async ({ request }: LoaderArgs) => {
 }
 
 export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
-  const entries = (await supabase.from('entries').select()).data
-
-  console.log(entries)
+  const entries = (await supabase.from('entries').select().order('created_at', { ascending: false })).data
 
   return json({ entries })
 }
@@ -38,19 +37,22 @@ export default function Index() {
   const error = useActionData<typeof action>()
 
   return (
-    <div>
-      <h1>Eight</h1>
+    <>
       {error ? <span className="text-red-500">{error.error}</span> : null}
-      <Form method="post">
-        <div className="flex flex-col">
-          <input name="body" placeholder="What did you do today?" />
-          <input name="day_rating" placeholder="How would you rate today?" type="number" min="1" max="10" />
-          <button type="submit">Submit</button>
-        </div>
-      </Form>
-      {
-        entries.map((item) => <div>{item.body}</div>)
-      }
-    </div>
+      <div className="my-10">
+        <Form method="post">
+          <div className="flex gap-5">
+            <input name="body" placeholder="What did you do today?" className="bg-transparent grow" />
+            <input name="day_rating" placeholder="How would you rate today?" type="number" min="1" max="10" className="bg-transparent w-1/4" />
+            <button type="submit">Submit</button>
+          </div>
+        </Form>
+      </div>
+      <div className="flex flex-col gap-3">
+        {
+          entries.map((item) => <Entry data={item} key={item.id} />)
+        }
+      </div>
+    </>
   );
 }
