@@ -36,19 +36,7 @@ export default function NewEntryForm({ disabled, dummySubmit }: { disabled: bool
               required={true}
             />
           </div>
-          {
-            !disabled && <button type="submit">Submit</button>
-          }
-          {
-            disabled && (
-              <div
-                onClick={() => dummySubmit({ body, dayRating })}
-              >
-                Submit
-              </div>
-            )
-          }
-          
+          <button type="submit">Submit</button>
         </div>
       </div>
     </Form>

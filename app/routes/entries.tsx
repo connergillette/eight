@@ -50,7 +50,7 @@ export default function Entries() {
           <span className="text-center text-green-500 w-full text-xl">Done for the day! See you tomorrow.</span>
         )}
         {!entrySubmittedToday && (
-          <NewEntryForm />
+          <NewEntryForm disabled={false} />
         )}
       </div>
       <div className="border-b-[1px] border-solid border-white border-opacity-20 w-full mt-4 mb-2"></div>

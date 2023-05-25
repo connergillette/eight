@@ -1,65 +1,68 @@
-import { useState } from 'react'
+import { useActionData } from '@remix-run/react'
 import HeroImage from '~/assets/hero_image.png'
 import Entry from '~/components/Entry'
 import NewEntryForm from '~/components/NewEntryForm'
 import Timeline from '~/components/Timeline'
 
-export default function Index() {
-  const now = new Date()
-  const [dummyDoneForTheDay, setDummyDoneForTheDay] = useState(false)
-  const [dummyEntries, setDummyEntries] = useState(
-    [
-      {
-        id: 17,
-        created_at: new Date().setDate(now.getDate() - 1),
-        body: 'Went on a great first date, went to the gym, got ice cream',
-        day_rating: 10
-      },
-      {
-        id: 16,
-        created_at: new Date().setDate(now.getDate() - 2),
-        body: 'Got breakfast out, rode my bike, slept in',
-        day_rating: 6
-      },
-      {
-        id: 15,
-        created_at: new Date().setDate(now.getDate() - 3),
-        body: "Slow day at work, didn't sleep much",
-        day_rating: 2
-      },
-      {
-        id: 14,
-        created_at: new Date().setDate(now.getDate() - 4),
-        body: 'Walked the dog, had lunch with Brian, interviewed',
-        day_rating: 8
-      },
-      {
-        id: 9,
-        created_at: new Date().setDate(now.getDate() - 5),
-        body: 'Freelance work, went on run, worked in lobby, took nap',
-        day_rating: 6
-      },
-      {
-        id: 6,
-        created_at: new Date().setDate(now.getDate() - 6),
-        body: 'Set up the new cat feeder, did some freelance work, built this little app',
-        day_rating: 5
-      }
-    ]
-  )
-
-  const dummySubmit = ({ body, dayRating }) => {
-    const copy = dummyEntries.slice()
-    copy.unshift({body, day_rating: dayRating, created_at: new Date(), id: 11})
-    setDummyEntries(copy)
-    setDummyDoneForTheDay(true)
+const now = new Date()
+const entries = [
+  {
+    id: 17,
+    created_at: new Date().setDate(now.getDate() - 1),
+    body: 'Went on a great first date, went to the gym, got ice cream',
+    day_rating: 10
+  },
+  {
+    id: 16,
+    created_at: new Date().setDate(now.getDate() - 2),
+    body: 'Got breakfast out, rode my bike, slept in',
+    day_rating: 6
+  },
+  {
+    id: 15,
+    created_at: new Date().setDate(now.getDate() - 3),
+    body: "Slow day at work, didn't sleep much",
+    day_rating: 2
+  },
+  {
+    id: 14,
+    created_at: new Date().setDate(now.getDate() - 4),
+    body: 'Walked the dog, had lunch with Brian, interviewed',
+    day_rating: 8
+  },
+  {
+    id: 9,
+    created_at: new Date().setDate(now.getDate() - 5),
+    body: 'Freelance work, went on run, worked in lobby, took nap',
+    day_rating: 6
+  },
+  {
+    id: 6,
+    created_at: new Date().setDate(now.getDate() - 6),
+    body: 'Set up the new cat feeder, did some freelance work, built this little app',
+    day_rating: 5
   }
+]
+
+export const action = async ({ request }) => {
+  const data = await request.formData()
+
+  const copy = entries.slice()
+  copy.unshift({ body: data.get('body'), day_rating: data.get('day_rating'), created_at: new Date(), id: 11 })
+  console.log(copy)
+  return copy
+}
+
+export default function Index() {
+  const actionData = useActionData()
+
+  const dummyDoneForTheDay = !!actionData
 
   return (
     <div className="w-8/12 mx-auto">
       <div className="p-24 text-center text-white/70">
         <h1 className="text-8xl mb-4">It's <span className="text-white font-bold">Eight</span> o'clock.</h1>
-        <h2 className="text-2xl">Great time to reflect.</h2>
+        <h2 className="text-2xl">A great time to reflect.</h2>
         <div className="absolute left-0 text-left">
           <img src={HeroImage} className="w-screen block -z-10" alt="A sketch of the night sky with a yellow crescent moon, white clouds, and white stars" />
           <div className="flex flex-col w-8/12 mx-auto my-10">
@@ -83,13 +86,13 @@ export default function Index() {
                   <div className="text-center text-green-500 w-full text-xl">Done for the day! See you tomorrow.</div>
                 )}
                 {!dummyDoneForTheDay && (
-                  <NewEntryForm dummySubmit={dummySubmit} disabled />
+                  <NewEntryForm disabled={false} />
                 )}
                 <div className="border-b-[1px] border-solid border-white border-opacity-20 w-full mt-4 mb-2"></div>
-                <Timeline entries={dummyEntries} entrySubmittedToday={dummyDoneForTheDay} />
+                <Timeline entries={actionData || entries} entrySubmittedToday={dummyDoneForTheDay} />
                 <div className="flex flex-col gap-3">
                   {
-                    dummyEntries.map((item) => <Entry data={item} key={item.id} />)
+                    (actionData || entries).map((item) => <Entry data={item} key={item.id} />)
                   }
                 </div>
               </div>
