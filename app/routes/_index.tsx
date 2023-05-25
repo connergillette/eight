@@ -36,46 +36,59 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
 }
 
 export default function Index() {
+  const [dayRating, setDayRating] = useState(null)
   const { entries } = useLoaderData<typeof loader>()
   const error = useActionData<typeof action>()
-  const [dayRating, setDayRating] = useState(null)
 
   const { bg, border } = getColorsFromRating(dayRating)
-  const dayRatingColor = dayRating ? `${bg} border-2 border-solid ${border} ` : 'bg-transparent border-none'
+  const dayRatingColor = dayRating ? `${bg} ${border}` : 'bg-transparent border-transparent'
   const injectedStyles = `${dayRatingColor} ${dayRating ? 'text-black' : 'text-white'}`
 
+  const entrySubmittedToday: boolean = new Date(entries[0].created_at).toLocaleDateString() === new Date().toLocaleDateString()
+
   return (
-    <>
+    <div className="w-full">
       {error ? <span className="text-red-500">{error.error}</span> : null}
-      <div className={`mt-10`}>
-        <Form method="post">
-          <div className="flex gap-5">
-            <input
-              name="body"
-              placeholder="What did you do today?"
-              className="bg-transparent grow p-2 rounded-lg border-none focus:outline-gray-400"
-              required={true}
-            />
-            <input 
-              name="day_rating"
-              placeholder="How would you rate today?"
-              type="number"
-              min="1"
-              max="10"
-              className={`transition rounded-lg w-1/4 p-2 ${injectedStyles}`}
-              onChange={(e) => setDayRating(e.target.value)} 
-              required={true}
-            />
-            <button type="submit">Submit</button>
-          </div>
-        </Form>
+      <div className={`flex mt-10`}>
+        {entrySubmittedToday && (<span className="text-center text-green-500 w-full text-xl">Done for the day!</span>)}
+        {!entrySubmittedToday && (
+          <Form method="post">
+            <div className="self-center opacity-30 text-xs tracking-widest mb-2">{new Date().toLocaleDateString()}</div>
+            <div className="flex flex-col gap-5">
+              <div>
+                <input
+                  name="body"
+                  placeholder="What did you do today?"
+                  className="bg-transparent grow p-2 rounded-lg border-none w-full focus:outline-gray-400"
+                  required={true}
+                  />
+              </div>
+              <div className="flex gap-5">
+                <div className={`${dayRating === 10 ? 'animate-ping' : ''} grow`}>
+                  <input
+                    name="day_rating"
+                    placeholder="How would you rate today?"
+                    type="number"
+                    min="1"
+                    max="10"
+                    className={`transition rounded-lg p-2 grow border-2 border-solid ${injectedStyles} w-full`}
+                    onChange={(e) => setDayRating(e.target.value)} 
+                    required={true}
+                  />
+                </div>
+                <button type="submit">Submit</button>
+              </div>
+            </div>
+          </Form>
+        )}
       </div>
-      <Timeline entries={entries} />
+      <div className="border-b-[1px] border-solid border-white border-opacity-20 w-full mt-4 mb-2"></div>
+      <Timeline entries={entries} entrySubmittedToday={entrySubmittedToday} />
       <div className="flex flex-col gap-3">
         {
           entries.map((item) => <Entry data={item} key={item.id} />)
         }
       </div>
-    </>
+    </div>
   )
 }

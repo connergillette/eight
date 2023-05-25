@@ -9,10 +9,13 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import { useState } from 'react';
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
+  { rel: "preconnect", href: "https://fonts.googleapis.com" },
+  { rel: "preconnect", href: "https://fonts.gstatic.com" },
+  { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"},
+  
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
@@ -27,7 +30,7 @@ export default function App() {
       </head>
       <body className={`bg-gray-900 text-white`}>
         <div className="container w-8/12 mx-auto">
-          <h1 className="text-3xl mt-5">Eight</h1>
+          <h1 className="text-3xl mt-5 tracking-wide font-bold">Eight</h1>
           <Outlet />
           <ScrollRestoration />
           <Scripts />
