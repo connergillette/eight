@@ -3,6 +3,7 @@ import { supabase } from '../server/supabase.server'
 import { Form, useActionData, useLoaderData } from '@remix-run/react';
 import Entry from '~/components/Entry';
 import { useState } from 'react';
+import Timeline from '~/components/Timeline';
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -44,7 +45,7 @@ export default function Index() {
   return (
     <>
       {error ? <span className="text-red-500">{error.error}</span> : null}
-      <div className={`my-10`}>
+      <div className={`mt-10`}>
         <Form method="post">
           <div className="flex gap-5">
             <input
@@ -67,6 +68,7 @@ export default function Index() {
           </div>
         </Form>
       </div>
+      <Timeline entries={entries} />
       <div className="flex flex-col gap-3">
         {
           entries.map((item) => <Entry data={item} key={item.id} />)
