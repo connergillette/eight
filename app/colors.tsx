@@ -1,4 +1,4 @@
-const dynamicColors = [
+export const dynamicColors = [
   {
     bg: 'bg-yellow-900',
     border: 'border-yellow-950'

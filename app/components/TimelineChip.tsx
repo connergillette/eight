@@ -14,13 +14,13 @@ interface TimelineChipProps {
 export default function TimelineChip({ entry }: TimelineChipProps) {
   const [isHovering, setIsHovering] = useState(false)
 
-  const commonStyles = `h-10 border-solid border-2 w-2 rounded-md my-5`
+  const commonStyles = `h-10 border-solid border-2 rounded-md my-5`
 
   if (!entry) {
     return (
-      <div className={`flex flex-col w-2 gap-0 animate-pulse`} onMouseOver={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
+      <div className={`flex flex-col gap-0 animate-pulse w-full`} onMouseOver={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
         <div className={`${commonStyles} border-white`}></div>
-        <div className={`${isHovering ? 'opacity-60' : 'opacity-0'} tracking-widest`}>{new Date().toLocaleDateString()}</div>
+        <div className={`${isHovering ? 'opacity-60' : 'opacity-0'} tracking-widest absolute mt-16`}>{new Date().toLocaleDateString()}</div>
       </div>
     )
   }
@@ -30,9 +30,9 @@ export default function TimelineChip({ entry }: TimelineChipProps) {
   const injectedStyles = `${bg} ${border} ${commonStyles}`
 
   return (
-    <div className={`flex flex-col w-2 gap-0`} onMouseOver={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
+    <div className={`flex flex-col gap-0 w-full`} onMouseOver={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
       <div className={injectedStyles}></div>
-      <div className={`${isHovering ? 'opacity-60' : 'opacity-0'} tracking-widest`}>{new Date(createdAt).toLocaleDateString()}</div>
+      <div className={`${isHovering ? 'opacity-60' : 'opacity-0'} tracking-widest absolute mt-16`}>{new Date(createdAt).toLocaleDateString()}</div>
     </div>
   )
 }

@@ -1,62 +1,103 @@
-import { ActionFunction, LoaderArgs, LoaderFunction, V2_MetaFunction, json, redirect } from "@remix-run/node"
-import { supabase } from '../server/supabase.server'
-import { useActionData, useLoaderData } from '@remix-run/react';
-import Entry from '~/components/Entry';
-import Timeline from '~/components/Timeline';
-import NewEntryForm from '~/components/NewEntryForm';
-
-export const meta: V2_MetaFunction = () => {
-  return [
-    { title: "Eight" },
-    { name: "description", content: "Once-per-day, no-frills daily reflection journal." },
-  ];
-};
-
-export const action: ActionFunction = async ({ request }: LoaderArgs) => {
-  const data = await request.formData()
-  const body = data.get('body')
-  const dayRating = data.get('day_rating')
-  try {
-    const response = await supabase.from('entries').insert({ body, day_rating: dayRating })
-    if (response.status !== 201) {
-      return { error: 'Entry could not be saved.'}
-    }
-  } catch (e) {
-    return { error: 'Something went wrong.'}
-  }
-  
-  return redirect('/')
-}
-
-export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
-  const entries = (await supabase.from('entries').select().order('created_at', { ascending: false })).data
-
-  return json({ entries })
-}
+import { useState } from 'react'
+import HeroImage from '~/assets/hero_image.png'
+import Entry from '~/components/Entry'
+import NewEntryForm from '~/components/NewEntryForm'
+import Timeline from '~/components/Timeline'
 
 export default function Index() {
-  const { entries } = useLoaderData<typeof loader>()
-  const error = useActionData<typeof action>()
+  const now = new Date()
+  const [dummyDoneForTheDay, setDummyDoneForTheDay] = useState(false)
+  const [dummyEntries, setDummyEntries] = useState(
+    [
+      {
+        id: 17,
+        created_at: new Date().setDate(now.getDate() - 1),
+        body: 'Went on a great first date, went to the gym, got ice cream',
+        day_rating: 10
+      },
+      {
+        id: 16,
+        created_at: new Date().setDate(now.getDate() - 2),
+        body: 'Got breakfast out, rode my bike, slept in',
+        day_rating: 6
+      },
+      {
+        id: 15,
+        created_at: new Date().setDate(now.getDate() - 3),
+        body: "Slow day at work, didn't sleep much",
+        day_rating: 2
+      },
+      {
+        id: 14,
+        created_at: new Date().setDate(now.getDate() - 4),
+        body: 'Walked the dog, had lunch with Brian, interviewed',
+        day_rating: 8
+      },
+      {
+        id: 9,
+        created_at: new Date().setDate(now.getDate() - 5),
+        body: 'Freelance work, went on run, worked in lobby, took nap',
+        day_rating: 6
+      },
+      {
+        id: 6,
+        created_at: new Date().setDate(now.getDate() - 6),
+        body: 'Set up the new cat feeder, did some freelance work, built this little app',
+        day_rating: 5
+      }
+    ]
+  )
 
-  const entrySubmittedToday: boolean = new Date(entries[0].created_at).toLocaleDateString() === new Date().toLocaleDateString()
+  const dummySubmit = ({ body, dayRating }) => {
+    const copy = dummyEntries.slice()
+    copy.unshift({body, day_rating: dayRating, created_at: new Date(), id: 11})
+    setDummyEntries(copy)
+    setDummyDoneForTheDay(true)
+  }
 
   return (
-    <div className="w-full">
-      {error ? <span className="text-red-500">{error.error}</span> : null}
-      <div className={`flex mt-10`}>
-      {entrySubmittedToday && (
-        <span className="text-center text-green-500 w-full text-xl">Done for the day! See you tomorrow.</span>
-      )}
-      {!entrySubmittedToday && (
-        <NewEntryForm />
-      )}
+    <div className="w-8/12 mx-auto">
+      <div className="p-24 text-center text-white/70">
+        <h1 className="text-8xl mb-4">It's <span className="text-white font-bold">Eight</span> o'clock.</h1>
+        <h2 className="text-2xl">Great time to reflect.</h2>
+        <div className="absolute left-0 text-left">
+          <img src={HeroImage} className="w-screen block -z-10" alt="A sketch of the night sky with a yellow crescent moon, white clouds, and white stars" />
+          <div className="flex flex-col w-8/12 mx-auto my-10">
+            <div className="flex gap-20">
+              <div className="flex flex-col grow w-min text-xl">
+                <h3 className="text-2xl font-bold mb-10">Dead-simple daily reflection that takes 10 seconds.</h3>
+                <div className="grow">
+                  <p className="pb-10">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis at tellus at urna condimentum mattis. Viverra adipiscing at in tellus integer feugiat scelerisque varius. Lacinia at quis risus sed vulputate odio ut. Congue quisque egestas diam in arcu. Eget egestas purus viverra accumsan in nisl nisi scelerisque. Tortor consequat id porta nibh venenatis. Risus commodo viverra maecenas accumsan lacus vel facilisis. Aenean et tortor at risus. Aliquam sem fringilla ut morbi tincidunt. Eu turpis egestas pretium aenean pharetra magna ac placerat.
+                  </p>
+                  <p>
+                    Bibendum enim facilisis gravida neque convallis. Vitae elementum curabitur vitae nunc sed velit dignissim sodales. Non arcu risus quis varius. Ultrices in iaculis nunc sed augue lacus viverra. Quis eleifend quam adipiscing vitae. Faucibus scelerisque eleifend donec pretium vulputate sapien nec sagittis. Non sodales neque sodales ut etiam sit amet. Mauris in aliquam sem fringilla. Phasellus faucibus scelerisque eleifend donec pretium vulputate sapien nec sagittis. Elementum facilisis leo vel fringilla est ullamcorper eget nulla facilisi. Elementum facilisis leo vel fringilla est ullamcorper eget nulla facilisi. Adipiscing enim eu turpis egestas. Laoreet suspendisse interdum consectetur libero id faucibus. Fringilla ut morbi tincidunt augue interdum velit euismod in. Leo a diam sollicitudin tempor id eu nisl nunc mi. Nec nam aliquam sem et tortor consequat id porta nibh.
+                  </p>
+                </div>
+                <div className="w-full text-5xl bg-white/10 rounded-lg p-10">
+                  <div className="text-center text-green-500">Done for the day! See you tomorrow.</div>
+                </div>
+              </div>
+              <div className="w-1/3 rounded-lg bg-white/10 p-10">
+                {dummyDoneForTheDay && (
+                  <div className="text-center text-green-500 w-full text-xl">Done for the day! See you tomorrow.</div>
+                )}
+                {!dummyDoneForTheDay && (
+                  <NewEntryForm dummySubmit={dummySubmit} disabled />
+                )}
+                <div className="border-b-[1px] border-solid border-white border-opacity-20 w-full mt-4 mb-2"></div>
+                <Timeline entries={dummyEntries} entrySubmittedToday={dummyDoneForTheDay} />
+                <div className="flex flex-col gap-3">
+                  {
+                    dummyEntries.map((item) => <Entry data={item} key={item.id} />)
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="border-b-[1px] border-solid border-white border-opacity-20 w-full mt-4 mb-2"></div>
-      <Timeline entries={entries} entrySubmittedToday={entrySubmittedToday} />
-      <div className="flex flex-col gap-3">
-        {
-          entries.map((item) => <Entry data={item} key={item.id} />)
-        }
+      <div>
       </div>
     </div>
   )

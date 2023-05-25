@@ -29,13 +29,16 @@ export default function App() {
         <Links />
       </head>
       <body className={`bg-gray-900 text-white`}>
-        <div className="container w-8/12 mx-auto">
-          <h1 className="text-3xl mt-5 tracking-wide font-bold">Eight</h1>
-          <Outlet />
-          <ScrollRestoration />
-          <Scripts />
-          <LiveReload />
+        <div className="flex container w-8/12 mx-auto">
+          <a href="/" className="text-3xl mt-5 tracking-wide font-bold grow">
+            <span>Eight</span>
+          </a>
+          <button className="bg-yellow-300 rounded-md text-black font-bold px-5 h-10 m-4 hover:bg-yellow-200 transition">Sign Up</button>
         </div>
+        <Outlet />
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
       </body>
     </html>
   );
