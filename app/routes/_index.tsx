@@ -4,6 +4,7 @@ import { Form, useActionData, useLoaderData } from '@remix-run/react';
 import Entry from '~/components/Entry';
 import { useState } from 'react';
 import Timeline from '~/components/Timeline';
+import { getColorsFromRating } from '~/colors';
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -39,7 +40,8 @@ export default function Index() {
   const error = useActionData<typeof action>()
   const [dayRating, setDayRating] = useState(null)
 
-  const dayRatingColor = dayRating ? `bg-yellow-${dayRating * 100 - 100} border-2 border-solid border-orange-${dayRating * 100 - 100} ` : 'bg-transparent border-none'
+  const { bg, border } = getColorsFromRating(dayRating)
+  const dayRatingColor = dayRating ? `${bg} border-2 border-solid ${border} ` : 'bg-transparent border-none'
   const injectedStyles = `${dayRatingColor} ${dayRating ? 'text-black' : 'text-white'}`
 
   return (
