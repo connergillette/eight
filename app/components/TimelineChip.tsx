@@ -32,7 +32,7 @@ export default function TimelineChip({ entry }: TimelineChipProps) {
   return (
     <div className={`flex flex-col gap-0 w-3`} onMouseOver={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
       <div className={injectedStyles}></div>
-      <div className={`${isHovering ? 'opacity-60' : 'opacity-0'} tracking-widest absolute mt-16`}>{new Date(createdAt).toLocaleDateString()}</div>
+      <div className={`${isHovering ? 'opacity-100' : 'opacity-0'} transition tracking-widest text-black px-2 z-10 absolute mt-16 bg-white border-solid border-2 border-gray-400 rounded-md`}>{new Date(createdAt).toLocaleDateString()}</div>
     </div>
   )
 }
