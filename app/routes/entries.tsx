@@ -1,10 +1,10 @@
 import { ActionFunction, LoaderArgs, LoaderFunction, V2_MetaFunction, json, redirect } from "@remix-run/node"
-import { supabase } from '../server/supabase.server'
 import { useActionData, useLoaderData } from '@remix-run/react';
 import Entry from '~/components/Entry';
 import Timeline from '~/components/Timeline';
 import NewEntryForm from '~/components/NewEntryForm';
 import { useState } from 'react';
+import { createServerClient } from '@supabase/auth-helpers-remix';
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -14,6 +14,12 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export const action: ActionFunction = async ({ request }: LoaderArgs) => {
+  const supabase = createServerClient(
+    process.env.SUPABASE_URL || '',
+    process.env.SUPABASE_KEY || '',
+    { request, response }
+  )
+
   const data = await request.formData()
   const body = data.get('body')
   const dayRating = data.get('day_rating')
@@ -23,17 +29,25 @@ export const action: ActionFunction = async ({ request }: LoaderArgs) => {
       return { error: 'Entry could not be saved.'}
     }
   } catch (e) {
-    return { error: 'Something went wrong.'}
+    return { error: 'Something went wrong.' }
   }
   
   return redirect('/entries')
 }
 
 export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
-  const entries = (await supabase.from('entries').select().order('created_at', { ascending: false })).data
-  console.log(entries)
+  const response = new Response()
+  // an empty response is required for the auth helpers
+  // to set cookies to manage auth
 
-  return json({ entries })
+  const supabase = createServerClient(
+    process.env.SUPABASE_URL || '',
+    process.env.SUPABASE_KEY || '',
+    { request, response }
+  )
+  const entries = (await supabase.from('entries').select().order('created_at', { ascending: false })).data
+
+  return json({ entries }, { headers: response.headers })
 }
 
 export default function Entries() {

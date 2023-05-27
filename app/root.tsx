@@ -1,6 +1,7 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
 import styles from './tailwind.css'
-import type { LinksFunction } from "@remix-run/node";
+import { LinksFunction, json } from "@remix-run/node";
+import { createBrowserClient } from "@supabase/auth-helpers-remix"
 import {
   Links,
   LiveReload,
@@ -8,7 +9,10 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
+import YellowButton from './components/YellowButton';
+import { useState } from 'react';
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
@@ -19,7 +23,19 @@ export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
+export const loader = () => {
+  const env = {
+    SUPABASE_URL: process.env.SUPABASE_URL,
+    SUPABASE_KEY: process.env.SUPABASE_KEY,
+  }
+
+  return json({ env })
+}
+
 export default function App() {
+  const { env } = useLoaderData()
+  const [supabase] = useState(() => createBrowserClient(env.SUPABASE_URL, env.SUPABASE_KEY))
+
   return (
     <html lang="en">
       <head>
@@ -33,9 +49,14 @@ export default function App() {
           <a href="/" className="text-3xl mt-5 tracking-wide font-bold grow">
             <span>Eight</span>
           </a>
-          <button className="bg-yellow-300 rounded-md text-black font-bold px-5 h-10 m-4 hover:bg-yellow-200 transition">Sign Up</button>
+          <a href="/login">
+            <button className="h-10 m-4">Log In</button>
+          </a>
+          <a href="/register">
+            <YellowButton content="Sign Up" />
+          </a>
         </div>
-        <Outlet />
+        <Outlet context={{ supabase }}/>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
