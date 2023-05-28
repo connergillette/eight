@@ -67,7 +67,7 @@ export default function Index() {
           <div className="flex flex-col max-md:w-10/12 w-8/12 mx-auto my-10">
             <div className="gap-20 max-md:flex-col flex">
               <div className="flex flex-col grow max-md:w-full w-min text-xl">
-                <h3 className="text-2xl font-bold max-md:mb-10">Dead-simple daily reflection that takes 10 seconds.</h3>
+                <h3 className="text-2xl font-bold max-md:mb-4 mb-10">Dead-simple daily reflection that takes 10 seconds.</h3>
                 <div className="grow">
                   <p className="max-md:pb-10">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis at tellus at urna condimentum mattis. Viverra adipiscing at in tellus integer feugiat scelerisque varius. Lacinia at quis risus sed vulputate odio ut. Congue quisque egestas diam in arcu. Eget egestas purus viverra accumsan in nisl nisi scelerisque. Tortor consequat id porta nibh venenatis. Risus commodo viverra maecenas accumsan lacus vel facilisis. Aenean et tortor at risus. Aliquam sem fringilla ut morbi tincidunt. Eu turpis egestas pretium aenean pharetra magna ac placerat.
@@ -80,7 +80,7 @@ export default function Index() {
                   <div className="text-center text-green-500">Done for the day! See you tomorrow.</div>
                 </div> */}
               </div>
-              <div className="w-1/3 rounded-lg bg-white/10 max-md:p-10 max-md:p-2">
+              <div className="max-md:w-full w-1/3 rounded-lg bg-white/10 p-10 max-md:p-4">
                 {dummyDoneForTheDay && (
                   <div className="text-center text-green-500 w-full text-xl">Done for the day! See you tomorrow.</div>
                 )}
