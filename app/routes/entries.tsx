@@ -72,7 +72,7 @@ export default function Entries() {
   const entrySubmittedToday: boolean = entries.length > 0 ? new Date(entries[0].created_at).toLocaleDateString() === new Date().toLocaleDateString() : false
 
   return (
-    <div className="container w-8/12 mx-auto">
+    <div className="container max-md:w-10/12 w-8/12 mx-auto">
       {error ? <span className="text-red-500">{error.error}</span> : null}
       <div className={`flex mt-10`}>
         {entrySubmittedToday && (
