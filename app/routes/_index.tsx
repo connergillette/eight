@@ -49,7 +49,6 @@ export const action = async ({ request }) => {
 
   const copy = entries.slice()
   copy.unshift({ body: data.get('body'), day_rating: data.get('day_rating'), created_at: new Date(), id: 11 })
-  console.log(copy)
   return copy
 }
 

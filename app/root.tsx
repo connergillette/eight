@@ -53,13 +53,11 @@ export default function App() {
   const serverAccessToken = session?.access_token
 
   useEffect(() => {
-    console.log(session)
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       if (session?.access_token !== serverAccessToken) {
         // server and client are out of sync.
-        console.log('revalidating...')
         revalidate()
       }
     })

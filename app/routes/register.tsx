@@ -17,7 +17,6 @@ export const action = async ({ request }) => {
   const loginResponse = supabase.auth.signUp({ email: data.get('email'), password: data.get('password') })
   if ((await loginResponse).data.user) {
     return { success: true }
-    // return redirect('/entries')
   }
 
   return { error: 'Something went wrong.' }

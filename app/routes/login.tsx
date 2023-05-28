@@ -1,8 +1,7 @@
-import { ActionFunction, redirect } from '@remix-run/node';
-import { Form, useActionData, useOutletContext } from '@remix-run/react';
-import { useEffect, useState } from 'react';
-import YellowButton from '~/components/YellowButton';
-// import { supabase } from '~/server/supabase.server';
+import type { ActionFunction } from '@remix-run/node'
+import { Form, useActionData, useOutletContext } from '@remix-run/react'
+import { useEffect, useState } from 'react'
+import YellowButton from '~/components/YellowButton'
 
 export const action : ActionFunction = async ({ request }) => {
   const data = await request.formData()
