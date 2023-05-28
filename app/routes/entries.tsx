@@ -14,6 +14,8 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export const action: ActionFunction = async ({ request }: LoaderArgs) => {
+  const response = new Response()
+
   const supabase = createServerClient(
     process.env.SUPABASE_URL || '',
     process.env.SUPABASE_KEY || '',
