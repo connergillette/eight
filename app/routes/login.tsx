@@ -30,9 +30,9 @@ export default function Login() {
   }, [data, supabase])
 
   return (
-    <div className="flex flex-col w-8/12 mx-auto my-10">
+    <div className="flex flex-col max-md:w-10/12 w-8/12 mx-auto my-10">
       <Form method="post">
-        <div className="w-1/2 mx-auto flex flex-col gap-10">
+        <div className="max-w-[600px] mx-auto flex flex-col gap-10">
           <span className={`text-red-400 text-center ${error ? 'opacity-100' : 'opacity-0'} transition`}>{error}</span>
           <h1 className="text-4xl">Log in</h1>
           <div className="flex flex-col gap-2">

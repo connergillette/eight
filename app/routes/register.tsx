@@ -35,9 +35,9 @@ export default function Register() {
   }, [data])
 
   return (
-    <div className="flex flex-col w-8/12 mx-auto my-10">
+    <div className="flex flex-col mx-auto my-10 max-md:w-10/12 w-8/12">
       <Form method="post">
-        <div className="w-1/2 mx-auto flex flex-col gap-10">
+        <div className="mx-auto flex flex-col gap-10 max-w-[600px]">
           <div className={`text-green-400 text-center ${success ? 'opacity-100 h-full' : 'opacity-0 h-0 pointer-events-none'} transition bg-red-500`}>
             <h2 className="text-5xl my-10">Success!</h2>
             <span className="text-xl">Please click on the link that was just sent to your email to finish signing up.</span>

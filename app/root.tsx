@@ -76,7 +76,7 @@ export default function App() {
         <Links />
       </head>
       <body className={`bg-gray-900 text-white`}>
-        <div className="flex container w-8/12 mx-auto">
+        <div className="flex container max-md:w-10/12 w-8/12 mx-auto">
           <a href="/" className="text-3xl mt-5 tracking-wide font-bold grow">
             <span>Eight</span>
           </a>
