@@ -1,6 +1,17 @@
 import { getColorsFromRating } from '~/colors'
 
-export default function Entry({ data }) {
+type Props = {
+  data: EntryData
+}
+
+export type EntryData = {
+  id: number,
+  created_at: Date,
+  day_rating: number,
+  body: string,
+}
+
+export default function Entry({ data }: Props) {
   const { day_rating: dayRating } = data
 
   const { bg, border } = getColorsFromRating(dayRating)
@@ -12,7 +23,7 @@ export default function Entry({ data }) {
       </div>
       <div className={`flex h-16 rounded-lg px-5 gap-5 text-black grow border-solid border-2 ${bg} ${border}`}>
         <span className="self-center">{data.body}</span>
-        <span className="self-center grow text-right">{data.day_rating}</span>
+        <span className="self-center grow text-right font-bold">{data.day_rating}</span>
       </div>
     </div>
   )

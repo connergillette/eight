@@ -1,6 +1,6 @@
 import { ActionFunction, LoaderArgs, LoaderFunction, V2_MetaFunction, json, redirect } from "@remix-run/node"
 import { useActionData, useLoaderData } from '@remix-run/react';
-import Entry from '~/components/Entry';
+import Entry, { EntryData } from '~/components/Entry';
 import Timeline from '~/components/Timeline';
 import NewEntryForm from '~/components/NewEntryForm';
 import { useState } from 'react';
@@ -73,7 +73,7 @@ export default function Entries() {
       <Timeline entries={entries} entrySubmittedToday={entrySubmittedToday} />
       <div className="flex flex-col gap-3">
         {
-          entries.map((item) => <Entry data={item} key={item.id} />)
+          entries.map((item: EntryData) => <Entry data={item} key={item.id} />)
         }
       </div>
     </div>
