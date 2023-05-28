@@ -65,22 +65,23 @@ export default function Index() {
         <div className="absolute left-0 text-left align-center">
           <img src={HeroImage} className="w-screen block -z-10 max-md:m-0 -mt-48" alt="A sketch of the night sky with a yellow crescent moon, white clouds, and white stars" />
           <div className="flex flex-col max-md:w-10/12 w-8/12 mx-auto my-10">
-            <div className="gap-20 max-md:flex-col flex">
-              <div className="flex flex-col grow max-md:w-full w-min text-xl">
+            <div className="gap-20 max-xl:flex-col flex">
+              <div className="flex flex-col grow max-xl:w-full w-min text-xl mt-24">
                 <h3 className="text-2xl font-bold max-md:mb-4 mb-10">Dead-simple daily reflection that takes 10 seconds.</h3>
                 <div className="grow">
-                  <p className="max-md:pb-10">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis at tellus at urna condimentum mattis. Viverra adipiscing at in tellus integer feugiat scelerisque varius. Lacinia at quis risus sed vulputate odio ut. Congue quisque egestas diam in arcu. Eget egestas purus viverra accumsan in nisl nisi scelerisque. Tortor consequat id porta nibh venenatis. Risus commodo viverra maecenas accumsan lacus vel facilisis. Aenean et tortor at risus. Aliquam sem fringilla ut morbi tincidunt. Eu turpis egestas pretium aenean pharetra magna ac placerat.
+                  <p className="pb-10">
+                    A little bit of self-reflection every day doesn't have to be a tedius exercise in long-form journaling and / or meditation. A quick, once-per-day option to help you remember to pause and reflect on the positives and negatives of the day is all that is needed to identify how to make improvements on how you spend your time.
                   </p>
                   <p>
-                    Bibendum enim facilisis gravida neque convallis. Vitae elementum curabitur vitae nunc sed velit dignissim sodales. Non arcu risus quis varius. Ultrices in iaculis nunc sed augue lacus viverra. Quis eleifend quam adipiscing vitae. Faucibus scelerisque eleifend donec pretium vulputate sapien nec sagittis. Non sodales neque sodales ut etiam sit amet. Mauris in aliquam sem fringilla. Phasellus faucibus scelerisque eleifend donec pretium vulputate sapien nec sagittis. Elementum facilisis leo vel fringilla est ullamcorper eget nulla facilisi. Elementum facilisis leo vel fringilla est ullamcorper eget nulla facilisi. Adipiscing enim eu turpis egestas. Laoreet suspendisse interdum consectetur libero id faucibus. Fringilla ut morbi tincidunt augue interdum velit euismod in. Leo a diam sollicitudin tempor id eu nisl nunc mi. Nec nam aliquam sem et tortor consequat id porta nibh.
+                    <span className="text-white font-bold">Eight</span> is a tool that I built after setting a daily iOS reminder to ask myself "What did you do today?" every day at 8pm, which I could answer to myself in my head even while I was doing something else. Having a lightweight tool to track these reflections over time felt like a great way to help people reflect on their own day, and to make daily reflection an easy habit to adopt.
                   </p>
+                  <div className="flex w-full align-middle justify-center mt-24">
+                    <div className="text-center bg-white/10 rounded-lg py-3 px-6 w-[300px">Made by <a href="https://github.com/connergillette" className="text-yellow-300 hover:brightness-110 brightness-100 transition">Conner Gillette.</a></div>
+                  </div>
                 </div>
-                {/* <div className="w-full text-5xl bg-white/10 rounded-lg p-10">
-                  <div className="text-center text-green-500">Done for the day! See you tomorrow.</div>
-                </div> */}
+                
               </div>
-              <div className="max-md:w-full w-1/3 rounded-lg bg-white/10 p-10 max-md:p-4">
+              <div className="max-xl:w-full w-1/3 rounded-lg bg-white/10 p-10 max-md:p-4 min-w-[350px]">
                 {dummyDoneForTheDay && (
                   <div className="text-center text-green-500 w-full text-xl">Done for the day! See you tomorrow.</div>
                 )}

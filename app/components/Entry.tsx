@@ -21,7 +21,7 @@ export default function Entry({ data }: Props) {
       <div>
         <span className="self-center opacity-30 text-xs tracking-widest">{new Date(data.created_at).toLocaleDateString()}</span>
       </div>
-      <div className={`flex h-16 rounded-lg px-5 gap-5 text-black grow border-solid border-2 ${bg} ${border}`}>
+      <div className={`flex rounded-lg min-h-16 px-5 py-3 gap-5 text-black grow border-solid border-2 ${bg} ${border}`}>
         <span className="self-center">{data.body}</span>
         <span className="self-center grow text-right font-bold">{data.day_rating}</span>
       </div>
