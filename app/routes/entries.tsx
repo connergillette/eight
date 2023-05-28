@@ -1,5 +1,5 @@
 import { ActionFunction, LoaderArgs, LoaderFunction, V2_MetaFunction, json, redirect } from "@remix-run/node"
-import { useActionData, useLoaderData } from '@remix-run/react';
+import { useActionData, useLoaderData, useOutletContext } from '@remix-run/react';
 import Entry, { EntryData } from '~/components/Entry';
 import Timeline from '~/components/Timeline';
 import NewEntryForm from '~/components/NewEntryForm';
@@ -47,6 +47,12 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
     process.env.SUPABASE_KEY || '',
     { request, response }
   )
+  const { data: { session }} = await supabase.auth.getSession()
+
+  if (!session) {
+    return redirect('/login')
+  }
+
   const entries = (await supabase.from('entries').select().order('created_at', { ascending: false })).data
 
   return json({ entries }, { headers: response.headers })
@@ -55,6 +61,9 @@ export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
 export default function Entries() {
   const { entries } = useLoaderData<typeof loader>()
   const error = useActionData<typeof action>()
+  const { session } = useOutletContext()
+
+  console.log(session)
 
   const entrySubmittedToday: boolean = new Date(entries[0].created_at).toLocaleDateString() === new Date().toLocaleDateString()
 

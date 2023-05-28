@@ -1,8 +1,9 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
 import styles from './tailwind.css'
-import { LinksFunction, json } from "@remix-run/node";
-import { createBrowserClient } from "@supabase/auth-helpers-remix"
+import { LinksFunction, json, redirect } from "@remix-run/node";
+import { createBrowserClient, createServerClient } from "@supabase/auth-helpers-remix"
 import {
+  Form,
   Links,
   LiveReload,
   Meta,
@@ -10,9 +11,10 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useRevalidator,
 } from "@remix-run/react";
 import YellowButton from './components/YellowButton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
@@ -23,18 +25,49 @@ export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
-export const loader = () => {
+export const loader = async ({ request }) => {
+  const response = new Response()
+
+  const supabase = createServerClient(process.env.SUPABASE_URL || '', process.env.SUPABASE_KEY || '', {
+    request,
+    response,
+  })
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
   const env = {
     SUPABASE_URL: process.env.SUPABASE_URL,
     SUPABASE_KEY: process.env.SUPABASE_KEY,
   }
 
-  return json({ env })
+  return json({ env, session }, { headers: response.headers })
 }
 
 export default function App() {
-  const { env } = useLoaderData()
+  const { env, session } = useLoaderData()
+  const { revalidate } = useRevalidator()
   const [supabase] = useState(() => createBrowserClient(env.SUPABASE_URL, env.SUPABASE_KEY))
+
+  const serverAccessToken = session?.access_token
+
+  useEffect(() => {
+    console.log(session)
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.access_token !== serverAccessToken) {
+        // server and client are out of sync.
+        console.log('revalidating...')
+        revalidate()
+      }
+    })
+
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [serverAccessToken, supabase, revalidate])
 
   return (
     <html lang="en">
@@ -49,14 +82,27 @@ export default function App() {
           <a href="/" className="text-3xl mt-5 tracking-wide font-bold grow">
             <span>Eight</span>
           </a>
-          <a href="/login">
-            <button className="h-10 m-4">Log In</button>
-          </a>
-          <a href="/register">
-            <YellowButton content="Sign Up" />
-          </a>
+          {
+            !session && (
+              <>
+                <a href="/login">
+                  <button className="h-10 m-4">Log In</button>
+                </a>
+                <a href="/register">
+                  <YellowButton content="Sign Up" />
+                </a>
+              </>
+            )
+          }
+          {
+            session && (
+              <Form method="post" action="/logout">
+                <button className="h-10 m-4" onClick={() => supabase.auth.signOut()}>Log Out</button>
+              </Form>
+            )
+          }
         </div>
-        <Outlet context={{ supabase }}/>
+        <Outlet context={{ supabase, session }}/>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
