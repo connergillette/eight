@@ -73,12 +73,12 @@ export default function Index() {
                     A little bit of self-reflection every day doesn't have to be a tedius exercise in long-form journaling and / or meditation. A quick, once-per-day option to help you remember to pause and reflect on the positives and negatives of the day is all that is needed to identify how to make improvements on how you spend your time.
                   </p>
                   <p>
-                    <span className="text-white font-bold">Eight</span> is a tool that I built after setting a daily iOS reminder to ask myself "What did you do today?" every day at 8pm, which I could answer to myself in my head even while I was doing something else. Having a lightweight tool to track these reflections over time felt like a great way to help people reflect on their own day, and to make daily reflection an easy habit to adopt.
+                    <span className="text-white font-bold">Eight</span> is a tool that I built after setting a daily iOS reminder to ask myself "What did you do today?" every day at 8pm. It was a simple question that I could answer to myself even while I was doing something else, without needing to write it down. Having a lightweight tool to track these reflections over time felt like a great way to help people reflect on their own day, and to make daily reflection an easy habit to adopt.
                   </p>
-                  <div className="flex w-full align-middle justify-center mt-24">
-                    <div className="text-center bg-white/10 rounded-lg py-3 px-6 w-[300px">Made by <a href="https://github.com/connergillette" className="text-yellow-300 hover:brightness-110 brightness-100 transition">Conner Gillette.</a></div>
-                  </div>
                 </div>
+                  <div className="flex w-full align-bottom justify-center mt-24">
+                    <div className="text-center bg-white/10 rounded-lg py-3 px-6 w-[300px]">Made by <a href="https://github.com/connergillette" className="text-yellow-300 hover:brightness-110 brightness-100 transition">Conner Gillette.</a></div>
+                  </div>
                 
               </div>
               <div className="max-xl:w-full w-1/3 rounded-lg bg-white/10 p-10 max-md:p-4 min-w-[350px]">
