@@ -18,7 +18,7 @@ export default function NewEntryForm({ disabled, dummySubmit }: { disabled: bool
           <input
             name="body"
             placeholder="What did you do today?"
-            className="bg-transparent grow p-2 rounded-lg border-none w-full focus:outline-gray-400"
+            className="grow p-2 rounded-lg border-none w-full focus:outline-gray-400 bg-white/10"
             required={true}
             onChange={(e) => setBody(e.target.value)}
           />
@@ -31,12 +31,12 @@ export default function NewEntryForm({ disabled, dummySubmit }: { disabled: bool
               type="number"
               min="1"
               max="10"
-              className={`transition rounded-lg p-2 grow border-2 border-solid ${injectedStyles} w-full`}
+              className={`transition rounded-lg p-2 grow border-2 border-solid ${injectedStyles} w-full bg-white/10`}
               onChange={(e) => setDayRating(e.target.value)} 
               required={true}
             />
           </div>
-          <button type="submit">Submit</button>
+          <button type="submit" className="bg-white/30 py-2 px-4 rounded-md">Submit</button>
         </div>
       </div>
     </Form>
